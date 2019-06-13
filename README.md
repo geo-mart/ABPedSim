@@ -13,4 +13,4 @@ agent based modelling.
 + WebGIS (JavaScript)
 + Communication via WAMP-Service of [crossbar.io/AutobahnPython](https://crossbar.io)
 
-[![Components](components.png)]
+![Components](components.png)
