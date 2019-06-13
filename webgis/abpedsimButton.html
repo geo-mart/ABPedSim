@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ABPedSim</title>
+	<link rel="stylesheet" href="openlayers/ol.css">
+	<link rel="stylesheet" href="webgis.css">
+	<script src="openlayers/ol-debug.js"></script>
+	<script src="autobahn/autobahn.min.js"></script>
+	<script src="proj4/proj4.js"></script>
+</head>
+<body>
+	<header>
+		<h1>ABPedSim</h1>
+	</header>
+	<section>
+		<div id="map" class="map"></div>
+	</section>
+	<aside>
+		<ul id="baselayerswitcher"></ul>
+		<ul id="layerswitcher"></ul>
+	</aside>
+
+	<button onclick="abpedsim()">Start ABPedSim</button>
+
+	
+	<script>
+		// https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.14/proj4.js
+		// Adds EPSG:25832 projection (ETRS89 / UTM zone 32N)
+		proj4.defs('EPSG:25832', "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs");
+	
+		// the WAMP connection to the Router
+		var connection = new autobahn.Connection({
+			url: "ws:...host..../ws", // wsuri,
+			realm: "...realm..."
+		});
+
+		// fired when connection is established and session attached
+		connection.onopen = function (session, details) {
+			console.log("Connected");
+
+			// SUBSCRIBE to a topic and receive events
+			
+			function geojs (args) {
+				var layersToRemove = [];
+				map.getLayers().forEach(function (layer) {
+					if (layer.get('name') != undefined && layer.get('name') === 'pedestrian_p') {
+						layersToRemove.push(layer);
+					}
+				});
+
+				var len = layersToRemove.length;
+				for(var i = 0; i < len; i++) {
+					map.removeLayer(layersToRemove[i]);
+				}
+				
+				console.log(args[0]);
+				var geojsonData = args[0];
+				
+				var vectorSource = new ol.source.Vector({
+					features: (new ol.format.GeoJSON({
+						defaultDataProjection: 'EPSG:25832',
+						featureProjection: 'EPSG:3857'
+					})).readFeatures(args[0])
+				});
+						
+				layer['pedestrian_p'] = new ol.layer.Vector({
+					name: 'pedestrian_p',
+					checked: true,
+					menu: 'Fußgänger (Punkt)',
+					source: vectorSource,
+					style: new ol.style.Style({
+						image: new ol.style.Circle({
+								radius: 4,
+								fill: new ol.style.Fill({
+									color: 'red'
+								})
+						})
+					})
+				});
+				map.addLayer(layer['pedestrian_p']);
+				layer['pedestrian_p'].setVisible(layer['pedestrian_p'].get('checked'));
+				
+			}
+			
+			session.subscribe('<session name for Point Visualization>', geojs).then(
+				function (sub) {
+					console.log("subscribed to topic '<session name for Point Visualization>'");
+				},
+				function (err) {
+					console.log("failed to subscribed: " + err);
+				}
+			);
+			
+
+
+			
+			
+
+		};
+		function abpedsim() {
+				console.log('start-abpedsim');
+				
+				var peds = 30;
+				var mapExtent = map.getView().calculateExtent(map.getSize());
+				mapExtent = ol.proj.transformExtent( mapExtent, 'EPSG:3857', 'EPSG:25832');
+				var type = 'FollowWayPointsModel';
+				var target = [565970.0026190672, 5933772.461778085];
+				
+				var pedinput = prompt("How many pedestrians to simulate?", "30");
+				var pe =  Number(pedinput);
+				
+				if (Number.isInteger(pe)) {
+					peds = pe;
+				} else {
+					peds = 0;
+				}
+				
+				var type;
+				var modinput = prompt("Mode: 0 for Standard, 1 for Target:", "0");
+				var mo =  Number(modinput);
+				
+				if (Number.isInteger(mo) && mo == 1) {
+					type = 1;
+				} else {
+					type = 0;
+				}
+				
+				session.publish('<session name for ABPedSim Start>', [mapExtent, peds, type]);
+			}; 
+		
+
+		// fired when connection was lost (or could not be established)
+		connection.onclose = function (reason, details) {
+			console.log("Connection lost: " + reason);
+		}
+
+		// now actually open the connection
+		connection.open(); 
+
+
+		function createBoundingBoxLayer(x0, y0, x1, y1) {
+			var iconFeatures = [];
+			var feature = new ol.Feature({
+				geometry: new ol.geom.Polygon( [[
+					[x0,y0],
+					[x0,y1],
+					[x1,y1],
+					[x1,y0],
+					[x0,y0]
+				]] )
+			});
+			iconFeatures.push(feature);
+			//console.log(iconFeatures[0]);
+			vectorSource = new ol.source.Vector({
+				features: iconFeatures
+			});
+			bboxLayer = new ol.layer.Vector({
+				source: vectorSource,
+				style: new ol.style.Style({
+					stroke: new ol.style.Stroke({color: [27, 103, 159, 0.8], width: 2})
+				})
+			});
+			map.addLayer(bboxLayer);
+		}
+		
+		
+		
+		
+		// Base Layer Switcher
+		function createBaseLayerMenu(layernames) {
+			layernames.forEach( function(layername) {
+				var l = baselayer[layername];
+				
+				// li-Element erzeugen
+				var li = document.createElement('li');
+				baselayerswitcher.appendChild(li);
+				
+				// Radiobutton erzeugen
+				var radiobtn = document.createElement('input');
+				radiobtn.type = 'radio';
+				radiobtn.id = l.get('name') + 'RaBt';
+				radiobtn.value = l.get('name');
+				radiobtn.name = 'baselayer';
+				radiobtn.checked = l.get('checked');
+				li.appendChild(radiobtn);
+				li.appendChild(document.createTextNode(' ' + l.get('menu') + ' '));
+				radiobtn.onclick = function() {
+					layernames.forEach( function (layername) {
+						var l = baselayer[layername];
+						l.setVisible(false);
+					});
+					baselayer[this.value].setVisible(true);
+				}
+			});
+		}
+		
+		function createLayerMenu(layernames) {
+			layernames.forEach( function(layername) {
+				var l = layer[layername];
+				
+				var li = document.createElement('li');
+				layerswitcher.appendChild(li);
+				
+				//Checkboxen erzeugen
+				var chbx = document.createElement('input');
+				chbx.type = 'checkbox';
+				chbx.id = l.get('name') + 'ChBx';
+				chbx.checked = l.get('checked');
+				li.appendChild(chbx);
+				li.appendChild(document.createTextNode(' ' + l.get('menu') + ' '));
+				
+				// Checkbox einen Eventlistener hinzufügen
+				document.getElementById(chbx.id).addEventListener('click', function() {
+					var checked = chbx.checked;
+					if (checked !== l.getVisible()) {
+						l.setVisible(checked);
+					}
+				});
+			});
+		
+		}
+		
+		
+		var baselayer = new Array();
+		var layer = new Array();
+		
+		// ############################################################
+
+		var view = new ol.View({
+			center: [1112870.8799573618, 7085233.297698348], // ol.proj.transform( [9.997581, 53.549247], 'EPSG:4326', 'EPSG:3857'),
+			//rotation: Math.PI / 2,
+			zoom: 18 // 12
+		});
+		
+		var map = new ol.Map({
+			target: 'map',
+			view: view
+		});
+
+		// ############################################################
+
+
+		// OSM
+		baselayer['osm'] = new ol.layer.Tile({
+			name: 'osm',
+			checked: true,
+			menu: 'OpenStreetMap',
+			source: new ol.source.OSM()
+		});
+		map.addLayer(baselayer['osm']);
+		baselayer['osm'].setVisible(baselayer['osm'].get('checked'));
+		
+		
+		// Bing
+		baselayer['bing'] = new ol.layer.Tile({
+			name: 'bing',
+			checked: true,
+			menu: 'BingMaps',
+			source: new ol.source.BingMaps({
+			  key: 'AtDCSyPWc_gGXJqRK4Pxl6yEDYM3irPVT0gwUGx3kz5JhCbB0jvZV7cLThw1A6ec',
+			  imagerySet: 'Aerial',
+			})
+		});
+		map.addLayer(baselayer['bing']);
+		baselayer['bing'].setVisible(baselayer['bing'].get('checked'));
+		
+		
+		
+		// LineStrings
+		layer['pedestrians'] = new ol.layer.Vector({
+			name: 'pedestrians',
+			checked: true,
+			menu: 'Fußgänger',
+			source: new ol.source.Vector({
+				projection: 'EPSG:3857',
+				url: 'data/pedestrian_3857.json',
+				format: new ol.format.GeoJSON()
+			}),
+			style: new ol.style.Style({
+				stroke: new ol.style.Stroke({
+					color: '#F00',
+					width: 1,
+					opacity: 0.1
+				})
+			})
+		});
+		map.addLayer(layer['pedestrians']);
+		layer['pedestrians'].setVisible(layer['pedestrians'].get('checked'));
+		
+		
+
+		createBaseLayerMenu(['osm', 'bing'])
+		createLayerMenu(['pedestrians']);
+
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
