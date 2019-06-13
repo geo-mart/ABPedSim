@@ -1,5 +1,5 @@
 # ABPedSim
-ABPedSIM is a prototype tool for agent based pedestrian simulation in urban environments.
+ABPedSim is a prototype tool for agent based pedestrian simulation in urban environments.
 
 The idea behind this tool is to combine pedestrian simulation concepts and agent based modelling with 
 the research findings of pedestrian behavior on public spaces made by social urban scientists and computer scientist. 
@@ -7,7 +7,12 @@ ABPedSim therefore adapt a pedestrian simulation software using the Social Force
 [Helbing et al. (2005)](https://pubsonline.informs.org/doi/pdf/10.1287/trsc.1040.0108) and extends it with ideas of 
 agent based modelling. 
 
+
 ## Features
++ works with common spatial formats
++ easy visualization
++ two basic scenarios
+
 
 
 ## Components
@@ -17,6 +22,7 @@ agent based modelling.
 + Communication via WAMP-Service of [crossbar.io/AutobahnPython](https://crossbar.io)
 
 ![Components](components.png)
+
 
 ## Getting started
 The simulation should run with the provided python script, the html-file in the webgis-folder (get your key for BingMaps) 
@@ -32,12 +38,11 @@ You should provide the following data:
 + shapefile with point data of bus stations
 + shapefile with point data of bike stations
 + shapefile with point data of parking lots
++ shapefile with a routing network for pedestrians
 
-## License
-Both, the simulation library and the user interface are under [LGPL v3](https://opensource.org/licenses/lgpl-3.0.html).
 
 ## Credits
-+ Initial idea and data: [Project SmartSquare](http://www.smartsquare.hamburg), HafenCity University, Hamburg
++ Initial idea, data and first application: Project [SmartSquare](http://www.smartsquare.hamburg), [HafenCity University](https://www.hcu-hamburg.de/), Hamburg
 + JCrowdSimulator: [Fraunhofer IVI, Fraunhofer Institute for Transportation and Infrastructure Systems](https://www.ivi.fraunhofer.de/en.html), Dresden
 
 ## Publication
