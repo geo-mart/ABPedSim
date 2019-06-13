@@ -16,15 +16,15 @@ from autobahn.asyncio.component import run
 
 #Layer zur Übergabe in die Simulation
 #crowd = "tourist-group.shp"
-boundaries = "data/boundaries.shp"
+boundaries = "data/boundaries.shp"  # shapefile with the boundaries of buildings, obstacles etc. as polygons
 boundaries_cut = "data/boundaries_cut.shp"
 gencrowd="data/pedestrians.shp"
 
 # Layer mit ÖPNV-Haltestellen
-bahn="data/subahn.shp"
-bus="data/bus.shp"
-rad="data/stadtrad.shp"
-park="data/parkhaus.shp"
+bahn="data/subahn.shp"  # shapefile with point data of subway stations
+bus="data/bus.shp"   # shapefile with point data of bus stations
+rad="data/stadtrad.shp"   # shapefile with point data of bike stations
+park="data/parkhaus.shp"   # shapefile with point data of parking lots
 gateways="data/gateways.shp"
 
 # Globale Default-Variablen
