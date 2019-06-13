@@ -10,7 +10,7 @@ agent based modelling.
 
 
 ## Components
-+ Module for controlling input data (Python)
++ Module for generating input data and handling output (Python)
 + Pedestrian Simulation adapted from [jCrowdSimulator](https://github.com/FraunhoferIVI/jCrowdSimulator) (Java)
 + WebGIS (JavaScript)
 + Communication via WAMP-Service of [crossbar.io/AutobahnPython](https://crossbar.io)
