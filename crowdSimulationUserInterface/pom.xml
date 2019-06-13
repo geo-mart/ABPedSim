@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>crowdSimulationUserInterface</name>
+
+	<groupId>de.fhg.ivi.crowdsimulation</groupId>
+	<artifactId>crowdsimui</artifactId>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
+	
+	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <geotools.version>19.2</geotools.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+	<dependencies>
+
+		<!-- crowdSimulationLib  -->
+		<dependency>
+			<groupId>de.fhg.ivi.crowdsimulation</groupId>
+			<artifactId>crowdsimlib</artifactId>
+			<version>0.0.1</version>
+		</dependency>				
+		
+		<!-- https://mvnrepository.com/artifact/com.github.jiconfont/jiconfont -->
+		<!-- font awesome icons -->
+		<dependency>
+	    	<groupId>com.github.jiconfont</groupId>
+	    	<artifactId>jiconfont</artifactId>
+	    	<version>1.0.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.github.jiconfont/jiconfont-font_awesome -->
+		<!-- font awesome icons -->
+		<dependency>
+	    	<groupId>com.github.jiconfont</groupId>
+	    	<artifactId>jiconfont-font_awesome</artifactId>
+	    	<version>4.7.0.0</version>
+		</dependency>
+			
+		<!-- https://mvnrepository.com/artifact/com.github.jiconfont/jiconfont-swing -->
+		<!-- font awesome icons -->
+		<dependency>
+	    	<groupId>com.github.jiconfont</groupId>
+	    	<artifactId>jiconfont-swing</artifactId>
+	    	<version>1.0.1</version>
+		</dependency>
+			
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv -->
+		<!-- read CSV file containing WKT -->
+		<dependency>
+	   	 	<groupId>net.sourceforge.javacsv</groupId>
+	    	<artifactId>javacsv</artifactId>
+	    	<version>2.0</version>
+		</dependency>
+			
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<!-- read files -->
+		<dependency>
+	    	<groupId>commons-io</groupId>
+	    	<artifactId>commons-io</artifactId>
+	    	<version>2.5</version>
+		</dependency>
+		
+		<!--http://jcenter.bintray.com/org/jmonkeyengine/-->
+		<!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-core -->
+		<!--
+		<dependency>
+	    	<groupId>org.jmonkeyengine</groupId>
+	   	 	<artifactId>jme3-core</artifactId>
+	    	<version>3.1.0-stable</version>
+		</dependency>
+		-->
+		
+		<!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-lwjgl -->
+		<!-- 
+		<dependency>
+	    	<groupId>org.jmonkeyengine</groupId>
+	    	<artifactId>jme3-lwjgl</artifactId>
+	    	<version>3.1.0-stable</version>
+		</dependency>
+		 -->
+		
+		<!-- https://mvnrepository.com/artifact/org.lwjgl/lwjgl -->
+		<!-- <dependency>
+	    	<groupId>org.lwjgl</groupId>
+	    	<artifactId>lwjgl</artifactId>
+	    	<version>3.1.2</version>
+		</dependency>
+		 -->
+		
+	</dependencies>
+</project>

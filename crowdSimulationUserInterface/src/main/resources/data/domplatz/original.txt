@@ -1,0 +1,4 @@
+old:
+Crowd: src/main/resources/data/pedestrianShapeFilesPerformanceTest/300pedestrians.shp
+waypoints: src/main/resources/data/wayPointFiles/wayPoints.csv
+boundaries: src/main/resources/data/boundaryShapeFiles/boundaries.shp
