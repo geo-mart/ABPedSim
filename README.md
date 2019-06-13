@@ -26,3 +26,19 @@ and insert the names for the following topics:
 + point data transfer
 + linestring data transfer (visualization not implemented in provided webgis)
 
+You should provide the following data:
++ shapefile with the boundaries of buildings, obstacles etc. as polygons
++ shapefile with point data of subway stations
++ shapefile with point data of bus stations
++ shapefile with point data of bike stations
++ shapefile with point data of parking lots
+
+## License
+Both, the simulation library and the user interface are under [LGPL v3](https://opensource.org/licenses/lgpl-3.0.html).
+
+## Credits
++ Initial idea and data: [Project SmartSquare](http://www.smartsquare.hamburg), HafenCity University, Hamburg
++ JCrowdSimulator: [Fraunhofer IVI, Fraunhofer Institute for Transportation and Infrastructure Systems](https://www.ivi.fraunhofer.de/en.html), Dresden
+
+## Publication
+...follows
