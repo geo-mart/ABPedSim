@@ -41,3 +41,6 @@ You should provide the following data:
 
 ## Publication
 ...follows
+
+## Contact
+[Martin Knura](http://www.geomatik-hamburg.de/g2lab/knura.html)
