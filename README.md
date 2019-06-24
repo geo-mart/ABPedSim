@@ -40,7 +40,7 @@ You should provide the following data:
 + JCrowdSimulator: [Fraunhofer IVI, Fraunhofer Institute for Transportation and Infrastructure Systems](https://www.ivi.fraunhofer.de/en.html), Dresden
 
 ## Publication
-...follows
+Knura, M., 2019. Agent Based Simulation of Pedestrian Movement in Urban Environments. In: Kyriakidis, P., Hadjimitsis, D., Skarlatos, D. & Mansourian, A. (Eds.), 2019. Accepted Short Papers and Posters from the 22nd AGILE Conference on Geo-information Science. Cyprus University of Technology 17-20 June 2019, Limassol, Cyprus. ISBN 978-90-816960-9-8, Publisher: Stichting AGILE. [PDF](https://agile-online.org/images/conference_2019/documents/short_papers/35_Upload_your_PDF_file.pdf)
 
 ## Contact
 [Martin Knura](http://www.geomatik-hamburg.de/g2lab/knura.html)
